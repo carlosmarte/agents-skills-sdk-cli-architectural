@@ -97,14 +97,14 @@ apps/sdk/  (or root)  # imports @tool/core; the programmatic facade
 - For internal-only shared helpers, relative imports across workspace packages (Windmill-style) avoid the overhead of publishing to npm/PyPI.
 - A bug fix or optimization in `core` reaches both the SDK and CLI with no cross-repo sync.
 
-## Canonical proof: Claude Code vs Claude Agent SDK
+## Canonical proof: one core, two adapters
 
-These run on the **same underlying harness** — identical agent loop, tool-calling, context management. They differ only in the primary driving adapter:
+Mature dev tools ship a terminal command and a programmatic library that run on the **same underlying core** — identical parsing, transformation, and error handling — differing only in the primary driving adapter:
 
-- **CLI adapter (Claude Code):** interactive terminal UI, human-in-the-loop, slash commands, inline diffs, manual permission prompts.
-- **SDK adapter (Claude Agent SDK):** no terminal UI; exposes the core as a programmatic library streaming typed messages; permissions resolved via programmatic hooks (`permissionMode` / `bypassPermissions`).
+- **`tsc` (CLI adapter) vs the `typescript` programmatic API:** the command-line compiler and the embedded Language Service both drive the same type-checker/emitter core; one is a terminal front-end, the other a library front-end.
+- **esbuild CLI vs the esbuild JS/Go API:** both are thin adapters over one bundler engine.
 
-When a core capability is added (e.g. bubblewrap sandboxing), both the interactive CLI and the automated pipeline inherit it simultaneously. That is the payoff of getting this boundary right.
+When a core capability lands (a new optimization, a sandboxing primitive, a validation rule), both the interactive CLI and the automated/library consumer inherit it simultaneously. That is the payoff of getting this boundary right.
 
 ## Hand-off
 
