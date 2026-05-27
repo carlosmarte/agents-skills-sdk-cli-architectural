@@ -44,15 +44,19 @@ Swap `--skill` for any name from the table above.
 
 ## Layout
 
+Skills live under `.agents/skills/<name>/` (the source of truth). The Claude Code harness auto-discovers skills from `.claude/skills/`, so each one is mirrored there as a relative symlink (`.claude/skills/<name> -> ../../.agents/skills/<name>`).
+
 ```
-.claude/skills/
+.agents/skills/                                       # source of truth
 ├── orchestration-sdk-cli-architect/SKILL.md          # entry point / router
 ├── orchestration-sdk-pattern-selector/SKILL.md
 ├── orchestration-sdk-client-state-isolation/SKILL.md
 ├── orchestration-cli-routing-architect/SKILL.md
 ├── orchestration-devtool-hexagonal-core/SKILL.md
 ├── orchestration-devtool-test-harness/SKILL.md
-└── agent-skill-kit-*/ , skill-repo-readme/ , ...   # vendored toolkit skills (see skills-lock.json)
+└── agent-skill-kit-*/ , skill-repo-readme/ , ...     # vendored toolkit skills (see skills-lock.json)
+
+.claude/skills/                                       # symlinks → ../../.agents/skills/<name> (harness discovery)
 ```
 
-Skills are auto-discovered by the Claude Code harness from `.claude/skills/`. The vendored `agent-skill-kit-*` skills (tracked in `skills-lock.json`) provide the `skills-ref` validator/linter used to QA these definitions.
+The vendored `agent-skill-kit-*` skills (tracked in `skills-lock.json`) provide the `skills-ref` validator/linter used to QA these definitions. They are git-ignored at both their `.agents/skills/` source and `.claude/skills/` symlink.
