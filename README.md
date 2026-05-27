@@ -37,7 +37,7 @@ npx skills add carlosmarte/agents-skills-sdk-cli-architectural \
   --skill orchestration-sdk-client-state-isolation -a claude-code \
   --skill orchestration-cli-routing-architect -a claude-code \
   --skill orchestration-devtool-hexagonal-core -a claude-code \
-  --skill orchestration-devtool-test-harness
+  --skill orchestration-devtool-test-harness -a claude-code
 ```
 
 Swap `--skill` for any name from the table above.
